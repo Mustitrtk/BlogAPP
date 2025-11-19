@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.API.Features.Blog.GetBlogs
 {
-    public struct GetBlogsQuery() : IRequest<List<BlogDTO>>;
+    public record GetBlogsQuery() : IRequest<List<BlogDTO>>;
 
     public class GetBlogsHandler : IRequestHandler<GetBlogsQuery, List<BlogDTO>>
     {
