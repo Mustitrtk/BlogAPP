@@ -34,7 +34,7 @@ namespace BlogApp.API.Features.Blog.GetById
         }
     }
 
-    public static class GetBlogById
+    public static class GetBlogByIdEndpoint
     {
         public static RouteGroupBuilder GetBlogByIdGroupItemEndpoint(this RouteGroupBuilder group)
         {
