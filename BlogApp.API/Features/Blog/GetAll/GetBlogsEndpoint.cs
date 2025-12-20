@@ -37,7 +37,7 @@ namespace BlogApp.API.Features.Blog.GetBlogs
             {
                 var result = await mediator.Send(new GetBlogsQuery());
                 return Results.Ok(result);
-            }).WithTags("GetBlogs");
+            }).WithTags("GetAll");
 
             return group;
         }

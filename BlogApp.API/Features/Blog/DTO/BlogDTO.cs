@@ -8,6 +8,7 @@ namespace BlogApp.API.Features.Blog.DTO
       string Title,
       string Description,
       string AuthorName,
+      string? Picture,
       CategoryDTO Category
     );
 }

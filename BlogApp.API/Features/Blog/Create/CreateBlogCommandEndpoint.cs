@@ -10,7 +10,7 @@ namespace BlogApp.API.Features.Blog.Create
             {
                 return await mediator.Send(command);
             })
-            .WithTags("CreateBlog");
+            .WithTags("Create");
 
             return group;
         }
