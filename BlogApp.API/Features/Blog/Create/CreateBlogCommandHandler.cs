@@ -26,6 +26,8 @@ namespace BlogApp.API.Features.Blog.Create
 
             if (hasBlog) return Results.BadRequest("Blog title must be unique!");
 
+            // TODO : Picture should added.
+
             var newBlog = _mapper.Map<BlogEntity>(request);
 
             newBlog.Id = NewId.NextSequentialGuid();

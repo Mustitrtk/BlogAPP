@@ -18,7 +18,7 @@ namespace BlogApp.API.Features.Blog.Update
         {
             var blog = await _context.Blogs.FindAsync(request.BlogId, cancellationToken);
 
-            if (blog == null) return Results.NotFound("Blog is not found");
+            if (blog == null) return null;
 
             blog.Title = request.Title;
             blog.Description = request.Description;

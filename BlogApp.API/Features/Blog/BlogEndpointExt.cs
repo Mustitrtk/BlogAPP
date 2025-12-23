@@ -1,5 +1,6 @@
 ﻿using BlogApp.API.Features.Blog.Create;
 using BlogApp.API.Features.Blog.GetBlogs;
+using BlogApp.API.Features.Blog.GetByCategoryId;
 using BlogApp.API.Features.Blog.GetById;
 using BlogApp.API.Features.Blog.Update;
 
@@ -12,6 +13,7 @@ namespace BlogApp.API.Features.Blog
             app.MapGroup("/blogs").WithTags("Blogs")
                 .GetBlogsGroupItemEndpoint()
                 .GetBlogByIdGroupItemEndpoint()
+                .GetBlogByCategoryIdGroupItemEndpoint()
                 .CreateBlogCommandGroupItemEndpoint()
                 .UpdateBlogCommandGroupItemEndpoint();
         }

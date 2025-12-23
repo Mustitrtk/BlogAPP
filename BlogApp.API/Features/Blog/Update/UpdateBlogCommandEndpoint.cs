@@ -8,7 +8,10 @@ namespace BlogApp.API.Features.Blog.Update
         {
             group.MapPut("/", async (UpdateBlogCommand command, IMediator mediator) =>
             {
-                return await mediator.Send(command);
+                var result = await mediator.Send(command);
+                if(result == null) return Results.NotFound("Blogs not found!");
+
+                return result;
             })
             .WithTags("Update");
 
