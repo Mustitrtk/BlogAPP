@@ -5,7 +5,7 @@ using MediatR;
 namespace BlogApp.API.Features.Category.Delete
 {
 
-    public record DeleteCategoryCommand(int Id) : IRequest<IResult>;
+    public record DeleteCategoryCommand(Guid Id) : IRequest<IResult>;
 
     public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, IResult>
     {
@@ -36,7 +36,7 @@ namespace BlogApp.API.Features.Category.Delete
     {
         public static RouteGroupBuilder DeleteCategoryEndpoint(this RouteGroupBuilder group)
         {
-            group.MapDelete("/{Id:guid}", async (IMediator mediator, int Id) =>
+            group.MapDelete("/{Id:guid}", async (IMediator mediator, Guid Id) =>
             {
                 var result = await mediator.Send(new DeleteCategoryCommand(Id));
                 return result;
