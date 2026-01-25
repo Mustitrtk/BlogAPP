@@ -26,7 +26,7 @@ namespace BlogApp.API.Features.Blog.GetById
             .Include(x => x.Category)
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-            if (blog is null) return null;
+            if (blog == null) return null;
 
             var blogDto = _mapper.Map<BlogDTO>(blog);
 

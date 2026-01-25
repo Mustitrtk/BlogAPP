@@ -23,9 +23,10 @@ namespace BlogApp.API.Features.Blog.GetByCategoryId
         {
             var blogs = await _context.Blogs
             .Include(x => x.Category)
-            .Where(x => x.CategoryId == request.CategoryId).ToListAsync(cancellationToken);
+            .Where(x => x.CategoryId == request.CategoryId)
+            .ToListAsync(cancellationToken);
 
-            if (blogs is null) return null;
+            if (blogs == null || blogs.Count == 0) return null;
 
             var blogsDto = _mapper.Map<List<BlogDTO>>(blogs);
 

@@ -1,4 +1,5 @@
-﻿using BlogApp.API.Features.Category.GetAll;
+﻿using BlogApp.API.Features.Blog.Create;
+using BlogApp.API.Features.Category.GetAll;
 
 namespace BlogApp.API.Features.Category
 {
@@ -7,7 +8,8 @@ namespace BlogApp.API.Features.Category
         public static void AddCategoryGroupEndpointExt(this WebApplication app)
         {
             app.MapGroup("/categories").WithTags("Categories")
-                .GetCategoriesGroupItemEndpoint();
+                .GetCategoriesGroupItemEndpoint()
+                .CreateBlogCommandGroupItemEndpoint();
         }
     }
 }
