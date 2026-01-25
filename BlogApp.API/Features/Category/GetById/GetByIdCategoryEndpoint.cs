@@ -1,28 +1,36 @@
 ﻿using AutoMapper;
 using BlogApp.API.Features.Category.DTO;
+using BlogApp.API.Features.Blog.DTO;
 using BlogApp.API.Repository;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.API.Features.Category.GetById
 {
-    public record GetByIdCategoryCommand(Guid id) : IRequest<CategoryDTO>;
+    public record GetByIdCategoryCommand(Guid id) : IRequest<CategoryWithBlogsDTO?>;
 
-    public class GetByIdCategoryHandler : IRequestHandler<GetByIdCategoryCommand, CategoryDTO>
+    public class GetByIdCategoryHandler : IRequestHandler<GetByIdCategoryCommand, CategoryWithBlogsDTO?>
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
         public GetByIdCategoryHandler(AppDbContext context, IMapper mapper)
         {
-             _context = context;
-             _mapper = mapper;
+            _context = context;
+            _mapper = mapper;
         }
-        public async Task<CategoryDTO> Handle(GetByIdCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<CategoryWithBlogsDTO?> Handle(GetByIdCategoryCommand request, CancellationToken cancellationToken)
         {
-            var category = await _context.Categories.FindAsync(request.id);
+            var category = await _context.Categories
+                .Include(c => c.Blogs)
+                .FirstOrDefaultAsync(c => c.Id == request.id, cancellationToken);
 
             if (category == null) return null;
-            
-            var categoryDto = _mapper.Map<CategoryDTO>(category);
+
+            var blogsDto = category.Blogs is null
+                ? new List<BlogDTO>()
+                : _mapper.Map<List<BlogDTO>>(category.Blogs);
+
+            var categoryDto = new CategoryWithBlogsDTO(category.Id, category.Name, blogsDto);
 
             return categoryDto;
         }
@@ -35,7 +43,8 @@ namespace BlogApp.API.Features.Category.GetById
             group.MapGet("/{Id:guid}", async (IMediator mediator, Guid Id) =>
             {
                 var result = await mediator.Send(new GetByIdCategoryCommand(Id));
-                return result;
+                if (result == null) return Results.NotFound("Category not found!");
+                return Results.Ok(result);
             }).WithTags("GetByIdCategory");
             return group;
         }
