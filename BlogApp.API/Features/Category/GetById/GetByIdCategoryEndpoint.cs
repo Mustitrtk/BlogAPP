@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.API.Features.Category.GetById
 {
-    public record GetByIdCategoryCommand(Guid id) : IRequest<CategoryWithBlogsDTO?>;
+    public record GetByIdCategoryQuery(Guid Id) : IRequest<CategoryWithBlogsDTO?>;
 
-    public class GetByIdCategoryHandler : IRequestHandler<GetByIdCategoryCommand, CategoryWithBlogsDTO?>
+    public class GetByIdCategoryHandler : IRequestHandler<GetByIdCategoryQuery, CategoryWithBlogsDTO?>
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
@@ -18,11 +18,11 @@ namespace BlogApp.API.Features.Category.GetById
             _context = context;
             _mapper = mapper;
         }
-        public async Task<CategoryWithBlogsDTO?> Handle(GetByIdCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<CategoryWithBlogsDTO?> Handle(GetByIdCategoryQuery request, CancellationToken cancellationToken)
         {
             var category = await _context.Categories
                 .Include(c => c.Blogs)
-                .FirstOrDefaultAsync(c => c.Id == request.id, cancellationToken);
+                .FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
 
             if (category == null) return null;
 
@@ -42,7 +42,7 @@ namespace BlogApp.API.Features.Category.GetById
         {
             group.MapGet("/{Id:guid}", async (IMediator mediator, Guid Id) =>
             {
-                var result = await mediator.Send(new GetByIdCategoryCommand(Id));
+                var result = await mediator.Send(new GetByIdCategoryQuery(Id));
                 if (result == null) return Results.NotFound("Category not found!");
                 return Results.Ok(result);
             }).WithTags("GetByIdCategory");

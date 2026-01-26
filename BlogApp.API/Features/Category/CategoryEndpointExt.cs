@@ -1,6 +1,7 @@
 ﻿using BlogApp.API.Features.Blog.Create;
 using BlogApp.API.Features.Category.GetAll;
 using BlogApp.API.Features.Category.GetById;
+using BlogApp.API.Features.Category.Update;
 
 namespace BlogApp.API.Features.Category
 {
@@ -11,7 +12,8 @@ namespace BlogApp.API.Features.Category
             app.MapGroup("/categories").WithTags("Categories")
                 .GetCategoriesGroupItemEndpoint()
                 .CreateBlogCommandGroupItemEndpoint()
-                .GetByIdCategoryGroupEndpoint();
+                .GetByIdCategoryGroupEndpoint()
+                .UpdateCategoryGroupEndpoint();
         }
     }
 }

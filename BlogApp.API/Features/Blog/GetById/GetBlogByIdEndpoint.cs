@@ -20,7 +20,7 @@ namespace BlogApp.API.Features.Blog.GetById
             _mapper = mapper;
         }
 
-        public async Task<BlogDTO> Handle(GetBlogByIdQuery request, CancellationToken cancellationToken)
+        public async Task<BlogDTO?> Handle(GetBlogByIdQuery request, CancellationToken cancellationToken)
         {
             var blog = await _context.Blogs
             .Include(x => x.Category)
