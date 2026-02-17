@@ -3,6 +3,7 @@ using BlogApp.API.Features.Blog.GetBlogs;
 using BlogApp.API.Features.Category.DTO;
 using BlogApp.API.Repository;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.API.Features.Category.GetAll
@@ -33,7 +34,7 @@ namespace BlogApp.API.Features.Category.GetAll
     {
         public static RouteGroupBuilder GetCategoriesGroupItemEndpoint(this RouteGroupBuilder group)
         {
-            group.MapGet("/", async (IMediator mediator) =>
+            group.MapGet("/", async ([FromServices] IMediator mediator) =>
             {
                 var result = await mediator.Send(new GetCategoriesQuery());
                 return Results.Ok(result);

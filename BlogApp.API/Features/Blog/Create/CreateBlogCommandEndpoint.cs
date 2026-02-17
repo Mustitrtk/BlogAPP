@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BlogApp.API.Features.Blog.Create
 {
@@ -6,7 +7,7 @@ namespace BlogApp.API.Features.Blog.Create
     {
         public static RouteGroupBuilder CreateBlogCommandGroupItemEndpoint(this RouteGroupBuilder group)
         {
-            group.MapPost("/", async (CreateBlogCommand command, IMediator mediator) =>
+            group.MapPost("/", async (CreateBlogCommand command, [FromServices] IMediator mediator) =>
             {
                 return await mediator.Send(command);
             })

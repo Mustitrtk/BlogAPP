@@ -2,6 +2,7 @@
 using BlogApp.API.Features.Blog.DTO;
 using BlogApp.API.Repository;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.API.Features.Blog.GetBlogs
@@ -33,7 +34,7 @@ namespace BlogApp.API.Features.Blog.GetBlogs
     {
         public static RouteGroupBuilder GetBlogsGroupItemEndpoint(this RouteGroupBuilder group)
         {
-            group.MapGet("/", async (IMediator mediator) =>
+            group.MapGet("/", async ([FromServices] IMediator mediator) =>
             {
                 var result = await mediator.Send(new GetBlogsQuery());
                 return Results.Ok(result);

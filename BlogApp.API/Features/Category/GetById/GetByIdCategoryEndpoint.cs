@@ -4,6 +4,7 @@ using BlogApp.API.Features.Blog.DTO;
 using BlogApp.API.Repository;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BlogApp.API.Features.Category.GetById
 {
@@ -40,7 +41,7 @@ namespace BlogApp.API.Features.Category.GetById
     {
         public static RouteGroupBuilder GetByIdCategoryGroupEndpoint(this RouteGroupBuilder group)
         {
-            group.MapGet("/{Id:guid}", async (IMediator mediator, Guid Id) =>
+            group.MapGet("/{Id:guid}", async ([FromServices] IMediator mediator, Guid Id) =>
             {
                 var result = await mediator.Send(new GetByIdCategoryQuery(Id));
                 if (result == null) return Results.NotFound("Category not found!");

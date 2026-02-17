@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BlogApp.API.Repository;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BlogApp.API.Features.Category.Delete
 {
@@ -36,7 +37,7 @@ namespace BlogApp.API.Features.Category.Delete
     {
         public static RouteGroupBuilder DeleteCategoryEndpoint(this RouteGroupBuilder group)
         {
-            group.MapDelete("/{Id:guid}", async (IMediator mediator, Guid Id) =>
+            group.MapDelete("/{Id:guid}", async ([FromServices] IMediator mediator, Guid Id) =>
             {
                 var result = await mediator.Send(new DeleteCategoryCommand(Id));
                 return result;
