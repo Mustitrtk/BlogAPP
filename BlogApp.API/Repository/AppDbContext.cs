@@ -12,7 +12,7 @@ namespace BlogApp.API.Repository
     {
         public DbSet<Category> Categories{ get; set; }
         public DbSet<BlogEntity> Blogs { get; set; }
-        public DbSet<UserEntity> User { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
         public static AppDbContext Create(IMongoDatabase database)
         {
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>().UseMongoDB(database.Client, database.DatabaseNamespace.DatabaseName);
