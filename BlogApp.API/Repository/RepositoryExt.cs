@@ -1,4 +1,5 @@
 ﻿using BlogApp.API.Options;
+using BlogApp.API.Service;
 using MongoDB.Driver;
 
 namespace BlogApp.API.Repository
@@ -13,6 +14,10 @@ namespace BlogApp.API.Repository
 
                 return new MongoClient(option.ConnectionString);
             });
+
+            services.AddScoped<ITokenService, TokenService>();
+
+            services.AddSingleton<ITokenRevocationService, InMemoryTokenRevocationService>();
 
             services.AddScoped(sp =>
             {

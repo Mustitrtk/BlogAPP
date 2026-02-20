@@ -1,39 +1,52 @@
+using AutoMapper;
 using BlogApp.API.Features.Auth;
 using BlogApp.API.Features.Blog;
 using BlogApp.API.Features.Category;
 using BlogApp.API.Options;
 using BlogApp.API.Repository;
-using BlogApp.API.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var jwtSection = builder.Configuration.GetSection("JwtSettings");
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
+builder.Services.Configure<JwtSettings>(jwtSection);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
 
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(jwtSettings["Key"]))
-    };
-});
+            ValidIssuer = jwtSection["Issuer"],
+            ValidAudience = jwtSection["Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(jwtSection["SecretKey"]!))
+        };
+    });
 
 builder.Services.AddAuthorization();
+
+var loggerFactory = LoggerFactory.Create(builder => { });
+
+var mapperConfig = new MapperConfiguration(
+    cfg =>
+    {
+        cfg.AddMaps(typeof(Program).Assembly);
+    },
+    loggerFactory
+);
+
+builder.Services.AddSingleton(mapperConfig.CreateMapper());
+
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
-
-builder.Services.AddSingleton<ITokenService, TokenService>();
-builder.Services.AddSingleton<ITokenRevocationService, InMemoryTokenRevocationService>();
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

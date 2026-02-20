@@ -8,11 +8,7 @@ namespace BlogApp.API.Features.Auth.Login
 {
     public record LoginCommand(string Username, string Password) : IRequest<LoginResultDto>;
 
-    public class LoginResultDto
-    {
-        public string Token { get; set; } = string.Empty;
-        public DateTime ExpiresAt { get; set; }
-    }
+    public record LoginResultDto(string Token, DateTime ExpiresAt);
 
     public class LoginHandler : IRequestHandler<LoginCommand, LoginResultDto>
     {
@@ -46,11 +42,7 @@ namespace BlogApp.API.Features.Auth.Login
             var token = _tokenService.GenerateToken(user);
             var expires = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpireMinutes);
 
-            return new LoginResultDto
-            {
-                Token = token,
-                ExpiresAt = expires
-            };
+            return new LoginResultDto(token,expires);
         }
     }
 }

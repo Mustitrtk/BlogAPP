@@ -28,7 +28,7 @@ namespace BlogApp.API.Features.Auth
                 }
             }).AllowAnonymous();
 
-            group.MapPost("/logout", [Authorize] async (HttpRequest request, [FromServices] ITokenRevocationService revocationService) =>
+            group.MapPost("/logout", [Authorize] async (HttpRequest request, ITokenRevocationService revocationService) =>
             {
                 var authHeader = request.Headers["Authorization"].ToString();
                 if (string.IsNullOrWhiteSpace(authHeader) || !authHeader.StartsWith("Bearer ")) return Results.BadRequest("No token provided");
