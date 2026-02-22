@@ -1,4 +1,5 @@
 ﻿using BlogApp.API.Features.Blog.Create;
+using BlogApp.API.Features.Blog.Delete;
 using BlogApp.API.Features.Blog.GetBlogs;
 using BlogApp.API.Features.Blog.GetByCategoryId;
 using BlogApp.API.Features.Blog.GetById;
@@ -15,7 +16,8 @@ namespace BlogApp.API.Features.Blog
                 .GetBlogByIdGroupItemEndpoint()
                 .GetBlogByCategoryIdGroupItemEndpoint()
                 .CreateBlogCommandGroupItemEndpoint()
-                .UpdateBlogCommandGroupItemEndpoint();
+                .UpdateBlogCommandGroupItemEndpoint()
+                .DeleteBlogGroupItemEndpoint();
         }
     }
 }

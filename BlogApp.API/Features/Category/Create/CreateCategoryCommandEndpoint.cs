@@ -11,7 +11,7 @@ namespace BlogApp.API.Features.Category.Create
             {
                 return await mediator.Send(command);
             })
-            .WithTags("Create");
+            .WithName("CreateCategory");
             return group;
         }
     }

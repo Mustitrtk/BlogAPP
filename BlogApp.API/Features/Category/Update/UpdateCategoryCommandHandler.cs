@@ -8,11 +8,9 @@ namespace BlogApp.API.Features.Category.Update
     public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand, IResult>
     {
         private readonly AppDbContext _context;
-        private readonly IMapper _mapper;
-        public UpdateCategoryCommandHandler(AppDbContext context, IMapper mapper)
+        public UpdateCategoryCommandHandler(AppDbContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         public async Task<IResult> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)

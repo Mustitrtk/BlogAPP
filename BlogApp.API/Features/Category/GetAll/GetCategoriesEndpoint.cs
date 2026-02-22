@@ -38,7 +38,7 @@ namespace BlogApp.API.Features.Category.GetAll
             {
                 var result = await mediator.Send(new GetCategoriesQuery());
                 return Results.Ok(result);
-            }).WithTags("GetAll");
+            }).WithName("GetCategories");
 
             return group;
         }

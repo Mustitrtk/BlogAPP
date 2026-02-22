@@ -11,7 +11,7 @@ namespace BlogApp.API.Features.Category.Update
             {
                 var result = await mediator.Send(command);
                 return result;
-            }).WithTags("UpdateCategory");
+            }).WithName("UpdateCategory");
 
             return group;
         }

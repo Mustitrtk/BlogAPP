@@ -46,7 +46,7 @@ namespace BlogApp.API.Features.Blog.GetById
                 if (result == null) return Results.NotFound("Blog not found!");
 
                 return Results.Ok(result);
-            }).WithTags("GetById");
+            }).WithName("GetBlogById");
 
             return group;
         }

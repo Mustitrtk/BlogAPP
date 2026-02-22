@@ -46,7 +46,7 @@ namespace BlogApp.API.Features.Category.GetById
                 var result = await mediator.Send(new GetByIdCategoryQuery(Id));
                 if (result == null) return Results.NotFound("Category not found!");
                 return Results.Ok(result);
-            }).WithTags("GetByIdCategory");
+            }).WithName("GetCategoryById");
             return group;
         }
     }

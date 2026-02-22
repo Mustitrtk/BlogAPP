@@ -1,4 +1,5 @@
-﻿using BlogApp.API.Features.Blog.Create;
+﻿using BlogApp.API.Features.Category.Create;
+using BlogApp.API.Features.Category.Delete;
 using BlogApp.API.Features.Category.GetAll;
 using BlogApp.API.Features.Category.GetById;
 using BlogApp.API.Features.Category.Update;
@@ -11,9 +12,10 @@ namespace BlogApp.API.Features.Category
         {
             app.MapGroup("/categories").WithTags("Categories")
                 .GetCategoriesGroupItemEndpoint()
-                .CreateBlogCommandGroupItemEndpoint()
+                .CreateCategoryCommandGroupItemEndpoint()
                 .GetByIdCategoryGroupEndpoint()
-                .UpdateCategoryGroupEndpoint();
+                .UpdateCategoryGroupEndpoint()
+                .DeleteCategoryEndpoint();
         }
     }
 }

@@ -11,11 +11,9 @@ namespace BlogApp.API.Features.Category.Delete
     public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, IResult>
     {
         private readonly AppDbContext _context;
-        private readonly IMapper _mapper;
-        public DeleteCategoryCommandHandler(AppDbContext context, IMapper mapper)
+        public DeleteCategoryCommandHandler(AppDbContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         public async Task<IResult> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
@@ -41,7 +39,7 @@ namespace BlogApp.API.Features.Category.Delete
             {
                 var result = await mediator.Send(new DeleteCategoryCommand(Id));
                 return result;
-            }).WithTags("DeleteCategory");
+            }).WithName("DeleteCategory");
             return group;
         }
     }
