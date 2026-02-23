@@ -1,10 +1,10 @@
-﻿using BlogApp.API.Repository;
-using BlogApp.API.Service;
+﻿using Auth.API.Repository;
+using Auth.API.Service;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace BlogApp.API.Features.Auth.Login
+namespace Auth.API.Features.Auth.Login
 {
     public record LoginCommand(string Username, string Password) : IRequest<LoginResultDto>;
 

@@ -1,12 +1,12 @@
-﻿using BlogApp.API.Features.Auth;
-using BlogApp.API.Options;
+﻿using Auth.API.Features.Auth;
+using Auth.API.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace BlogApp.API.Service
+namespace Auth.API.Service
 {
     public class TokenService : ITokenService
     {

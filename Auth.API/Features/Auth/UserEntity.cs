@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 
-namespace BlogApp.API.Features.Auth
+namespace Auth.API.Features.Auth
 {
     public class UserEntity
     {

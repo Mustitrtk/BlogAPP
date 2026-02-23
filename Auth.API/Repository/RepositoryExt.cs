@@ -1,7 +1,8 @@
-﻿using BlogApp.API.Options;
+﻿using Auth.API.Options;
+using Auth.API.Service;
 using MongoDB.Driver;
 
-namespace BlogApp.API.Repository
+namespace Auth.API.Repository
 {
     public static class RepositoryExt
     {
@@ -13,6 +14,10 @@ namespace BlogApp.API.Repository
 
                 return new MongoClient(option.ConnectionString);
             });
+
+            services.AddScoped<ITokenService, TokenService>();
+
+            services.AddSingleton<ITokenRevocationService, InMemoryTokenRevocationService>();
 
             services.AddScoped(sp =>
             {

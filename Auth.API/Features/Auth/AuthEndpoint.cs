@@ -1,11 +1,11 @@
-﻿using BlogApp.API.Features.Auth.Login;
-using BlogApp.API.Service;
+﻿using Auth.API.Features.Auth.Login;
+using Auth.API.Service;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace BlogApp.API.Features.Auth
+namespace Auth.API.Features.Auth
 {
     public static class AuthEndpoint
     {

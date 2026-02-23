@@ -1,7 +1,7 @@
 ﻿
 using System.Collections.Concurrent;
 
-namespace BlogApp.API.Service
+namespace Auth.API.Service
 {
     public class InMemoryTokenRevocationService : ITokenRevocationService
     {

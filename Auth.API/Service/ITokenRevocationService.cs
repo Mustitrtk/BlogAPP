@@ -1,4 +1,4 @@
-﻿namespace BlogApp.API.Service
+﻿namespace Auth.API.Service
 {
     public interface ITokenRevocationService
     {

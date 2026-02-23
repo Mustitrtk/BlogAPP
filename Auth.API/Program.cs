@@ -1,8 +1,7 @@
+using Auth.API.Features.Auth;
+using Auth.API.Options;
+using Auth.API.Repository;
 using AutoMapper;
-using BlogApp.API.Features.Blog;
-using BlogApp.API.Features.Category;
-using BlogApp.API.Options;
-using BlogApp.API.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -47,8 +46,6 @@ builder.Services.AddSingleton(mapperConfig.CreateMapper());
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
@@ -60,8 +57,7 @@ var app = builder.Build();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.AddBlogGroupEndpointExt();
-app.AddCategoryGroupEndpointExt();
+app.AddAuthGroupEnpoint();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

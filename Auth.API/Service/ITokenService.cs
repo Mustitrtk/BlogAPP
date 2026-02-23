@@ -1,6 +1,6 @@
-﻿using BlogApp.API.Features.Auth;
+﻿using Auth.API.Features.Auth;
 
-namespace BlogApp.API.Service
+namespace Auth.API.Service
 {
     public interface ITokenService
     {

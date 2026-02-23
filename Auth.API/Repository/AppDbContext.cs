@@ -1,16 +1,14 @@
-﻿using BlogApp.API.Features.Blog;
-using BlogApp.API.Features.Category;
+﻿using Auth.API.Features.Auth;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 using System.Reflection;
 
-namespace BlogApp.API.Repository
+namespace Auth.API.Repository
 {
 
     public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
     {
-        public DbSet<Category> Categories{ get; set; }
-        public DbSet<BlogEntity> Blogs { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
         public static AppDbContext Create(IMongoDatabase database)
         {
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>().UseMongoDB(database.Client, database.DatabaseNamespace.DatabaseName);
