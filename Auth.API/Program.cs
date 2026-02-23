@@ -8,10 +8,6 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-
 var jwtSection = builder.Configuration.GetSection("JwtSettings");
 
 builder.Services.Configure<JwtSettings>(jwtSection);

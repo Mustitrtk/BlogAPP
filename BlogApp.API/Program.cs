@@ -1,5 +1,4 @@
 using AutoMapper;
-using BlogApp.API.Features.Auth;
 using BlogApp.API.Features.Blog;
 using BlogApp.API.Features.Category;
 using BlogApp.API.Options;
@@ -63,7 +62,6 @@ app.UseAuthorization();
 
 app.AddBlogGroupEndpointExt();
 app.AddCategoryGroupEndpointExt();
-app.AddAuthGroupEnpoint();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
