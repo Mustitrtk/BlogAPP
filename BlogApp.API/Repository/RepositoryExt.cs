@@ -19,7 +19,7 @@ namespace BlogApp.API.Repository
                 var mongoClient = sp.GetRequiredService<MongoClient>();
                 var options = sp.GetRequiredService<MongoOptions>();
 
-                return AppDbContext.Create(mongoClient.GetDatabase(options.ConnectionString));
+                return AppDbContext.Create(mongoClient.GetDatabase(options.DatabaseName));
             });
 
             return services;

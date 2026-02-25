@@ -35,6 +35,8 @@ namespace Auth.API.Features.Auth.Login
 
             if (user == null) throw new Exception("Invalid credentials");
 
+            if(user.Role != "Admin") throw new Exception("Only Admin users can login");
+
             var verifyResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHashed, request.Password);
             if (verifyResult == PasswordVerificationResult.Failed)
                 throw new Exception("Invalid credentials");
