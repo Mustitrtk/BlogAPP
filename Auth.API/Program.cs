@@ -1,6 +1,7 @@
 using Auth.API.Features.Auth;
 using Auth.API.Options;
 using Auth.API.Repository;
+using Auth.API.Seeder;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -56,6 +57,12 @@ var app = builder.Build();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await Seeder.SeedAdminAsync(context);
+}
 
 app.AddAuthGroupEnpoint();
 
