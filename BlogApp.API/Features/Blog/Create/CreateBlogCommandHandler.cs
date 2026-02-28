@@ -28,9 +28,16 @@ namespace BlogApp.API.Features.Blog.Create
 
             // TODO : Picture should added.
 
-            var newBlog = _mapper.Map<BlogEntity>(request);
+            var newBlog = new BlogEntity
+            {
+                Id = NewId.NextSequentialGuid(), 
+                Title = request.Title, 
+                Description = request.Description, 
+                CategoryId = request.CategoryId, 
+                AuthorName = request.AuthorName
+            };
 
-            newBlog.Id = NewId.NextSequentialGuid();
+            newBlog.Category = hasCategory;
 
             _context.Blogs.Add(newBlog);
 

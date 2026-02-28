@@ -23,7 +23,6 @@ namespace BlogApp.API.Features.Blog.GetByCategoryId
         public async Task<List<BlogDTO>> Handle(GetBlogsByCategoryIdQuery request, CancellationToken cancellationToken)
         {
             var blogs = await _context.Blogs
-            .Include(x => x.Category)
             .Where(x => x.CategoryId == request.CategoryId)
             .ToListAsync(cancellationToken);
 
@@ -39,9 +38,9 @@ namespace BlogApp.API.Features.Blog.GetByCategoryId
     {
         public static RouteGroupBuilder GetBlogByCategoryIdGroupItemEndpoint(this RouteGroupBuilder group)
         {
-            group.MapGet("/{CategoryId:guid}", async ([FromServices] IMediator mediator, Guid CategoryId) =>
+            group.MapGet("/Category/{CategoryId:guid}", async ([FromServices] IMediator mediator, Guid CategoryId) =>
             {
-                var result = await mediator.Send(new GetBlogByIdQuery(CategoryId));
+                var result = await mediator.Send(new GetBlogsByCategoryIdQuery(CategoryId));
 
                 if (result == null) return Results.NotFound("Blogs not found!");
 

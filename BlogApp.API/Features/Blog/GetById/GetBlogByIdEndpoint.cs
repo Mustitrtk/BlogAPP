@@ -23,11 +23,13 @@ namespace BlogApp.API.Features.Blog.GetById
 
         public async Task<BlogDTO?> Handle(GetBlogByIdQuery request, CancellationToken cancellationToken)
         {
-            var blog = await _context.Blogs
-            .Include(x => x.Category)
-            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var blog = await _context.Blogs.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
             if (blog == null) return null;
+
+            var category = await _context.Categories.FindAsync(blog.CategoryId);
+
+            blog.Category = category;
 
             var blogDto = _mapper.Map<BlogDTO>(blog);
 

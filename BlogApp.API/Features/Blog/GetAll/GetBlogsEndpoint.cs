@@ -4,6 +4,7 @@ using BlogApp.API.Repository;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ZstdSharp;
 
 namespace BlogApp.API.Features.Blog.GetBlogs
 {
@@ -22,9 +23,13 @@ namespace BlogApp.API.Features.Blog.GetBlogs
 
         public async Task<List<BlogDTO>> Handle(GetBlogsQuery request, CancellationToken cancellationToken)
         {
-            var blogs = await _context.Blogs
-                .Include(b => b.Category)
-                .ToListAsync(cancellationToken);
+            var blogs = await _context.Blogs.ToListAsync(cancellationToken);
+
+            foreach(var blog in blogs)
+            {
+                var category = await _context.Categories.FindAsync(blog.CategoryId);
+                blog.Category = category;
+            }
 
             return _mapper.Map<List<BlogDTO>>(blogs);
         }

@@ -6,6 +6,6 @@ namespace BlogApp.API.Features.Category.DTO
     (
         Guid Id,
         string Name,
-        List<BlogDTO> Blogs
+        List<BlogListDTO> Blogs
     );
 }
