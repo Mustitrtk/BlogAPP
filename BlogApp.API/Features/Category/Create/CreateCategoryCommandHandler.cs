@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BlogApp.API.Features.Category.DTO;
 using BlogApp.API.Repository;
 using MassTransit;
 using MediatR;
@@ -23,9 +24,7 @@ namespace BlogApp.API.Features.Category.Create
 
             if (hasCategory) return Results.BadRequest("Category already added.");
 
-            var newCategory = _mapper.Map<Category>(request);
-
-            newCategory.Id = NewId.NextSequentialGuid();
+            var newCategory = new Category { Name = request.Name , Id = NewId.NextSequentialGuid() };
 
             _context.Categories.Add(newCategory);
 

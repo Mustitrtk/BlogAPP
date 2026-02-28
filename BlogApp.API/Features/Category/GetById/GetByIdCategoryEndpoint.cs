@@ -22,18 +22,24 @@ namespace BlogApp.API.Features.Category.GetById
         public async Task<CategoryWithBlogsDTO?> Handle(GetByIdCategoryQuery request, CancellationToken cancellationToken)
         {
             var category = await _context.Categories
-                .Include(c => c.Blogs)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
 
-            if (category == null) return null;
+            if (category is null)
+                return null;
 
-            var blogsDto = category.Blogs is null
-                ? new List<BlogDTO>()
-                : _mapper.Map<List<BlogDTO>>(category.Blogs);
+            var blogs = await _context.Blogs
+                .Where(b => b.CategoryId == request.Id)
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
 
-            var categoryDto = new CategoryWithBlogsDTO(category.Id, category.Name, blogsDto);
+            var blogsDto = _mapper.Map<List<BlogListDTO>>(blogs);
 
-            return categoryDto;
+            return new CategoryWithBlogsDTO(
+                category.Id,
+                category.Name,
+                blogsDto
+            );
         }
     }
 
