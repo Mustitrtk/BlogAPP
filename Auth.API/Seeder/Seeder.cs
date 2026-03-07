@@ -1,6 +1,7 @@
 ﻿using Auth.API.Features.Auth;
 using Auth.API.Repository;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Auth.API.Seeder
 {
@@ -8,17 +9,32 @@ namespace Auth.API.Seeder
     {
         public static async Task SeedAdminAsync(AppDbContext context)
         {
-            var hasher = new PasswordHasher<UserEntity>();
-            if (!context.Users.Any())
+            try
             {
-                var user = new UserEntity()
+                var hasher = new PasswordHasher<UserEntity>();
+
+                // Veritabanının ve koleksiyonun oluşturulduğundan emin ol (EF Core Mongo için önemli)
+                // await context.Database.EnsureCreatedAsync(); 
+
+                var anyUser = await context.Users.AnyAsync(); // Listleyip RAM'i yormaktansa AnyAsync daha hızlıdır
+                if (!anyUser)
                 {
-                    Id = Guid.NewGuid(),
-                    Username = "admin",
-                    Role = "Admin"
-                };
-                user.PasswordHashed = hasher.HashPassword(user, "123456");
-                context.Users.Add(user);
+                    var user = new UserEntity()
+                    {
+                        Id = Guid.NewGuid(),
+                        Username = "admin",
+                        Role = "Admin"
+                    };
+                    user.PasswordHashed = new PasswordHasher<UserEntity>().HashPassword(user,"Admin_12345");
+
+                    await context.Users.AddAsync(user);
+                    await context.SaveChangesAsync(); 
+                    Console.WriteLine("Seeder: Admin kullanıcısı oluşturuldu.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Seeder Hatası: {ex.Message}");
             }
         }
     }
