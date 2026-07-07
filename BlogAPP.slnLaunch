@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Yeni Profil",
+    "Projects": [
+      {
+        "Path": "BlogApp.API\\BlogApp.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Auth.API\\Auth.API.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

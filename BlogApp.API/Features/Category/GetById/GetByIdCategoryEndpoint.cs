@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
-using BlogApp.API.Features.Category.DTO;
+using BlogApp.API.Features.Blog;
 using BlogApp.API.Features.Blog.DTO;
+using BlogApp.API.Features.Category.DTO;
 using BlogApp.API.Repository;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace BlogApp.API.Features.Category.GetById
 {
@@ -28,7 +30,7 @@ namespace BlogApp.API.Features.Category.GetById
             if (category is null)
                 return null;
 
-            var blogs = await _context.Blogs
+            List <BlogEntity> blogs = await _context.Blogs
                 .Where(b => b.CategoryId == request.Id)
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
