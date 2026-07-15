@@ -28,6 +28,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(jwtSection["SecretKey"]!))
         };
+
+        options.MapInboundClaims = false;
     });
 
 builder.Services.AddAuthorization();

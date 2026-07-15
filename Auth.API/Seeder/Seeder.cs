@@ -13,10 +13,7 @@ namespace Auth.API.Seeder
             {
                 var hasher = new PasswordHasher<UserEntity>();
 
-                // Veritabanının ve koleksiyonun oluşturulduğundan emin ol (EF Core Mongo için önemli)
-                // await context.Database.EnsureCreatedAsync(); 
-
-                var anyUser = await context.Users.AnyAsync(); // Listleyip RAM'i yormaktansa AnyAsync daha hızlıdır
+                var anyUser = await context.Users.AnyAsync();
                 if (!anyUser)
                 {
                     var user = new UserEntity()

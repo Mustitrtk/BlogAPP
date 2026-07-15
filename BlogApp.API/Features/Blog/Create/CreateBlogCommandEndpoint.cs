@@ -10,7 +10,7 @@ namespace BlogApp.API.Features.Blog.Create
             group.MapPost("/", async (CreateBlogCommand command, [FromServices] IMediator mediator) =>
             {
                 return await mediator.Send(command);
-            }).WithName("CreateBlog");
+            }).WithName("CreateBlog").RequireAuthorization("AdminOnly");
 
             return group;
         }

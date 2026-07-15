@@ -12,7 +12,7 @@ namespace BlogApp.API.Features.Blog.Update
                 var result = await mediator.Send(command);
                 return result;
             })
-            .WithName("UpdateBlog");
+            .WithName("UpdateBlog").RequireAuthorization("AdminOnly");
 
             return group;
         }

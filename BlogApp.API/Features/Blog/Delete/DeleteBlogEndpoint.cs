@@ -35,7 +35,7 @@ namespace BlogApp.API.Features.Blog.Delete
             {
                 var result = await mediator.Send(new DeleteBlogCommand(Id));
                 return result;
-            }).WithName("DeleteBlog");
+            }).WithName("DeleteBlog").RequireAuthorization("AdminOnly");
             return group;
         }
     }
