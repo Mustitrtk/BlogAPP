@@ -11,7 +11,7 @@ namespace BlogApp.API.Features.Category.Create
             {
                 return await mediator.Send(command);
             })
-            .WithName("CreateCategory");
+            .WithName("CreateCategory").RequireAuthorization("AdminOnly");
             return group;
         }
     }

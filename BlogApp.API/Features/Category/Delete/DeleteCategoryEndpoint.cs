@@ -39,7 +39,7 @@ namespace BlogApp.API.Features.Category.Delete
             {
                 var result = await mediator.Send(new DeleteCategoryCommand(Id));
                 return result;
-            }).WithName("DeleteCategory");
+            }).WithName("DeleteCategory").RequireAuthorization("AdminOnly");
             return group;
         }
     }
