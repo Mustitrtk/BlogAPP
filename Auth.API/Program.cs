@@ -4,14 +4,17 @@ using Auth.API.Repository;
 using Auth.API.Seeder;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var jwtSection = builder.Configuration.GetSection("JwtSettings");
-
 builder.Services.Configure<JwtSettings>(jwtSection);
+builder.Services.AddOptionExt();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -35,30 +38,43 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 
 var loggerFactory = LoggerFactory.Create(builder => { });
-
 var mapperConfig = new MapperConfiguration(
     cfg =>
     {
         cfg.AddMaps(typeof(Program).Assembly);
     },
-    loggerFactory
-);
+    loggerFactory);
 
 builder.Services.AddSingleton(mapperConfig.CreateMapper());
 
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
-builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.AddSwaggerGen();
-builder.Services.AddOptionExt();
+builder.Services.AddScoped<IPasswordHasher<UserEntity>, PasswordHasher<UserEntity>>();
 builder.Services.AddRepositoryExt();
 
-var app = builder.Build();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Auth API", Version = "v1" });
 
-app.UseAuthentication();
-app.UseAuthorization();
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Lütfen token'ı girin (Örn: 'Bearer eyJhbGci...')",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+
+    options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+    {
+        { new OpenApiSecuritySchemeReference("Bearer", document), new List<string>() }
+    });
+});
+
+var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
@@ -66,13 +82,15 @@ using (var scope = app.Services.CreateScope())
     await Seeder.SeedAdminAsync(context);
 }
 
-app.AddAuthGroupEnpoint();
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.AddAuthGroupEnpoint();
 
 app.Run();
