@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Auth.API.Features.Auth;
+using AutoMapper;
 using BlogApp.API.Features.Blog.DTO;
 
 namespace BlogApp.API.Features.Blog
@@ -8,6 +9,7 @@ namespace BlogApp.API.Features.Blog
         public BlogMapping()
         {
             CreateMap<BlogEntity, BlogDTO>().ReverseMap();
+            CreateMap<UserEntity, UserEntityDTO>().ReverseMap();
         }
     }
 }
