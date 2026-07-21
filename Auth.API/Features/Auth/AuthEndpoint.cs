@@ -1,4 +1,5 @@
 ﻿using Auth.API.Features.Auth.Login;
+using Auth.API.Features.Auth.Register;
 using Auth.API.Service;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +12,8 @@ namespace Auth.API.Features.Auth
     {
         public static void AddAuthGroupEnpoint(this WebApplication app)
         {
-            var group = app.MapGroup("/auth").WithTags("Auth");
+            var group = app.MapGroup("/auth").WithTags("Auth")
+                .RegisterCommandEndpointItem();
 
             group.MapPost("/login", async([FromServices] IMediator mediator, LoginCommand cmd) =>
             {
